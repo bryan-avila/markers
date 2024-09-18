@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_pop_up_box">
+
+    <TextView
+        android:id="@+id/tv_pop_up_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_text"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_pop_up_image"
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        android:layout_below="@id/tv_pop_up_title"
+        android:contentDescription="@string/spot_image"
+        android:src="@drawable/library"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_pop_up_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_text"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/iv_pop_up_image"
+        android:paddingBottom="10dp"
+        />
+
+</RelativeLayout>

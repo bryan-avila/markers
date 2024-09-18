@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:rowCount="4"
+    android:columnCount="4"
+    android:background="@color/secondaryRed">
+
+    <!-- Image -->
+    <ImageView
+        android:id="@+id/tv_spot_image"
+        android:layout_width="120dp"
+        android:layout_height="135dp"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:layout_rowSpan="4"
+        android:contentDescription="@string/spot_image"
+        android:src="@drawable/library" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tv_spot_title_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:text="@string/default_text"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginStart="15dp" />
+
+    <!-- Description -->
+    <TextView
+        android:id="@+id/tv_spot_desc_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="2"
+        android:text="@string/default_text"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:layout_marginStart="15dp" />
+
+    <!-- DELETE Button -->
+    <ImageButton
+        android:id="@+id/button_delete_item"
+        android:layout_width="35dp"
+        android:layout_height="48dp"
+        android:layout_column="3"
+        android:layout_row="0"
+        android:contentDescription="@string/delete_spot"
+        android:src="@drawable/baseline_delete_24"
+        android:background="@color/whiteRed"
+        android:elevation="5dp" />
+
+    <!-- GO Button -->
+    <ImageButton
+        android:id="@+id/button_go_item"
+        android:layout_width="35dp"
+        android:layout_height="48dp"
+        android:layout_column="3"
+        android:layout_row="3"
+        android:contentDescription="@string/go_to_spot"
+        android:src="@drawable/baseline_arrow_24"
+        android:background="@color/blue"
+        android:elevation="5dp"
+        app:tint="@color/white" />
+
+</GridLayout>

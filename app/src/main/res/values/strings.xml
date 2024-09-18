@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">csun_markers</string>
+    <string name="delete_spot">Delete Spot</string>
+    <string name="spot_image">Spot Image</string>
+    <string name="map">Map</string>
+    <string name="saved_spots">Saved Spots</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_text">Default</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="go_to_spot">Go To Spot!</string>
+    <string name="refresh_button">Refresh Button</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_window_box">
+
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tv_info_window_title"
+        android:text="@string/default_text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/secondaryRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="25dp"
+        android:layout_centerHorizontal="true"
+        style="@style/CustomInfoWindow"
+        />
+
+
+    <!-- Snippet -->
+    <TextView
+        android:id="@+id/tv_info_window_snippet"
+        android:text="@string/default_text"
+        android:textSize="17sp"
+        android:textColor="@color/whiteRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_info_window_title"
+        android:paddingBottom="10dp"
+        style="@style/CustomInfoWindow"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Csun_markers" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/primaryRed</item>
+        <item name="colorSecondary">@color/secondaryRed</item>
+        <item name="colorPrimaryVariant">@color/whiteRed</item>
+    </style>
+</resources>
