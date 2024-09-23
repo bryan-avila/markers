@@ -14,6 +14,9 @@ interface SpotDAO {
     @Query("SELECT * FROM spot_table ORDER BY title ASC")
     fun getSpotsByTitle(): Flow<List<Spot>>
 
+    @Query("SELECT * FROM spot_table ORDER BY title DESC")
+    fun getSpotsByTitleDESC(): Flow<List<Spot>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(spot: Spot)
 

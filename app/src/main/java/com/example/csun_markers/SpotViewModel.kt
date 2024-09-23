@@ -9,8 +9,11 @@ import kotlinx.coroutines.launch
 
 class SpotViewModel(private val spotRepo: AppRepo): ViewModel() {
 
+    var sortType = SortType.ASC
+
     // Transform Flow data into LiveData!
     val allSpots: LiveData<List<Spot>> = spotRepo.allSpots.asLiveData()
+    val allSpotsDESC: LiveData<List<Spot>> = spotRepo.allSpotsDESC.asLiveData()
 
     // Encapsulate repository functions insert & delete.
     fun insert(spot: Spot) = viewModelScope.launch {

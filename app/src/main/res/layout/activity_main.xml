@@ -36,11 +36,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/green"/>
 
+    <!-- Radio GROUP -->
+    <RadioGroup
+        android:id="@+id/rb_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/search_view"
+        app:layout_constraintStart_toStartOf="@id/guideline_vertical_first"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vertical">
+
+    <!-- ASC Radio Button -->
+    <RadioButton
+        android:id="@+id/rb_title_ASC"
+        android:layout_width="62dp"
+        android:layout_height="match_parent"
+        android:text="ASC"
+        android:textSize="8sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
+
+    <!-- DESC Radio Button -->
+    <RadioButton
+        android:id="@+id/rb_title_DESC"
+        android:layout_width="62dp"
+        android:layout_height="match_parent"
+        android:text="DESC"
+        android:textSize="8sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
+    </RadioGroup>
+
+
     <!-- Recycler View -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -61,6 +99,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav_menu" />
+
+    <!-- Vertical Guideline First -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.52"/>
+
+    <!-- Vertical Guideline Second -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.68"/>
 
     <!-- Vertical Guideline -->
     <androidx.constraintlayout.widget.Guideline

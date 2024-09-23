@@ -12,6 +12,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -21,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Locale
 
-// Main
 class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
 
     private lateinit var navBar: BottomNavigationView
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
         SpotViewModelFactory((application as SpotApplication).spotRepo)
     }
 
-    // ----- Establish RecyclerView, SearchView, Refresh Button and Nav Bar Here -----
+
+    // ----- Create vals for refresh button, search view, recycler view, etc. and call their respective functions -----
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +41,10 @@ class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
         val searchView = findViewById<SearchView>(R.id.search_view)
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val adapter = SpotListAdapter()
+        val radioGroup = findViewById<RadioGroup>(R.id.rb_group)
+        val ascButton = findViewById<RadioButton>(R.id.rb_title_ASC)
+        val descButton = findViewById<RadioButton>(R.id.rb_title_DESC)
+
         navBar = findViewById(R.id.bottom_nav_bar)
 
         adapter.setListener(this) // Set Recycler View Item Listener.
@@ -46,44 +52,15 @@ class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Handle Nav Bar Stuff.
-        navBar.setSelectedItemId(R.id.item_spots)
-        navBar.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.item_map -> {
-                        val intent = Intent(this@MainActivity, MapsActivity::class.java)
-                        startActivityForResult(intent, mapActivityRequestCode)
-                }
+        createNavBar(navBar)
 
-                R.id.item_spots -> null
-            }
-            true
-        }
+        handleSearchView(searchView, adapter)
 
-        // Handle Search View Queries.
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                adapter.filter.filter(query)
-                return true
-            }
+        refreshButtonListener(refreshButton)
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
+        determineRadioButtonState(ascButton, descButton, adapter)
 
-        })
-
-        // Handle Refresh Clicks.
-        refreshButton.setOnClickListener {
-            finish()
-            startActivity(intent)
-        }
-
-        // Observer will update RecyclerView when changes are noticed.
-        spotViewModel.allSpots.observe(this) {
-            spots ->
-                spots.let { adapter.submitList(it) }
-        }
+        updateListOnRadioClick(radioGroup, adapter)
 
     }
 
@@ -115,6 +92,7 @@ class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
         }
     }
 
+
     // ----- Display a Pop Up Window -----
     override fun onSpotClick(spot: Spot, position: Int) {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -137,10 +115,12 @@ class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
         popUpWindow.showAtLocation(findViewById(android.R.id.content), Gravity.CENTER, 0, 0)
     }
 
+
     // ----- Handle Item Delete Clicks -----
     override fun onDeleteClick(spot: Spot, position: Int) {
          spotViewModel.delete(spot)
     }
+
 
     // ----- Handle Item Go Clicks -----
     override fun onGoClick(spot: Spot) {
@@ -151,6 +131,113 @@ class MainActivity : AppCompatActivity(), SpotListAdapter.ItemListener {
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent) // Open up Google Maps App!
         }
+    }
+
+
+    // ----- Update Radio Button 'filled in' state and update Recycler View UI in real time -----
+    private fun determineRadioButtonState(ascButton: RadioButton, descButton: RadioButton, adapter: SpotListAdapter) {
+        if(spotViewModel.sortType == SortType.ASC) {
+            ascButton.isChecked = true
+            spotViewModelUpdate(adapter, SortType.ASC, false)
+
+        } else if (spotViewModel.sortType == SortType.DESC) {
+            descButton.isChecked = true
+            spotViewModelUpdate(adapter, SortType.ASC, false)
+        }
+
+    }
+
+
+    // ----- Set up Nav Bar logic, correct highlight of items -----
+    private fun createNavBar(navBar: BottomNavigationView) {
+        navBar.setSelectedItemId(R.id.item_spots)
+        navBar.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.item_map -> {
+                    val intent = Intent(this@MainActivity, MapsActivity::class.java)
+                    startActivityForResult(intent, mapActivityRequestCode)
+                }
+
+                R.id.item_spots -> null
+            }
+            true
+        }
+    }
+
+
+    // ----- Set up searching logic, update adapter -----
+    private fun handleSearchView(searchView: SearchView, adapter: SpotListAdapter) {
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                adapter.filter.filter(query)
+                searchView.clearFocus() // After pressing enter, remove focus.
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+
+        })
+    }
+
+
+    // ----- Establish on click listener -----
+    private fun refreshButtonListener(refreshButton: ImageButton) {
+        refreshButton.setOnClickListener {
+            finish()
+            startActivity(intent)
+        }
+    }
+
+
+    // ----- Update the Recycler View UI in real time, based off radio button clicked -----
+    private fun updateListOnRadioClick(radioGroup: RadioGroup, adapter: SpotListAdapter) {
+        radioGroup.setOnCheckedChangeListener { radioGroup, item ->
+            when (item) {
+                R.id.rb_title_ASC -> {
+                    spotViewModel.sortType = SortType.ASC
+                    spotViewModelUpdate(adapter, SortType.ASC, true)
+                }
+
+                R.id.rb_title_DESC -> {
+                    spotViewModel.sortType = SortType.DESC
+                    spotViewModelUpdate(adapter, SortType.DESC, true)
+                }
+            }
+        }
+    }
+
+
+    // ----- Update which list has an observer in real time, based off sort type and boolean condition -----
+    private fun spotViewModelUpdate(adapter: SpotListAdapter, sortType: SortType, removeListener: Boolean) {
+        if (removeListener && sortType == SortType.ASC) {
+            spotViewModel.allSpotsDESC.removeObservers(this)
+            spotViewModel.allSpots.observe(this) {
+                spots ->
+                    spots.let { adapter.submitList(it) }
+            }
+        }
+        else if(removeListener && sortType == SortType.DESC) {
+            spotViewModel.allSpots.removeObservers(this)
+            spotViewModel.allSpotsDESC.observe(this) {
+                spots ->
+                    spots.let { adapter.submitList(it) }
+            }
+        }
+
+        else if(!removeListener && sortType == SortType.ASC) {
+            spotViewModel.allSpots.observe(this) { spots ->
+                spots.let { adapter.submitList(it) }
+            }
+        }
+
+        else if(!removeListener && sortType == SortType.DESC) {
+            spotViewModel.allSpotsDESC.observe(this) { spots ->
+                spots.let { adapter.submitList(it) }
+            }
+        }
+
     }
 
 }
